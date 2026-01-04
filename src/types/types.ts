@@ -3,7 +3,7 @@ import {Octokit} from '@octokit/rest';
 import {RepositoryInput} from '../api/types/repository';
 
 export type FoundryInitializer = {
-  log: Logger;
-  octokitClient: Octokit;
-  input: RepositoryInput;
+    log: Logger;
+    octokitClient: Octokit;
+    input: RepositoryInput;
 };

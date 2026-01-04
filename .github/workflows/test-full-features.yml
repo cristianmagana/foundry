@@ -1,0 +1,149 @@
+name: Test Full Feature Suite
+on:
+  workflow_dispatch:
+    inputs:
+      repository-name:
+        description: 'Repository name to create'
+        required: true
+        default: 'foundry-full-test'
+      organization:
+        description: 'Organization name'
+        required: true
+
+jobs:
+  test-all-features:
+    runs-on: ubuntu-latest
+    name: Test All Foundry Features
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build action
+        run: npm run build
+
+      - name: Create Production-Ready Repository
+        id: create-repo
+        uses: ./
+        with:
+          # Core configuration
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          repository-name: ${{ inputs.repository-name }}
+          repository-description: 'Full feature test repository with all productionalization'
+          repository-private: 'true'
+          organization: ${{ inputs.organization }}
+          auto-init: 'true'
+          gitignore-template: 'Node'
+          license-template: 'mit'
+          default-branch: 'main'
+
+          # Enable productionalization
+          productionalize: 'true'
+
+          # Team permissions: adsre=admin, adtech=maintain
+          team-permissions: |
+            [
+              {"teamSlug": "adsre", "permission": "admin"},
+              {"teamSlug": "adtech", "permission": "maintain"}
+            ]
+
+          # Repository topics
+          repository-topics: 'foundry,test,infrastructure,production'
+
+          # Environments: dev, staging, prod
+          environments: |
+            [
+              {
+                "name": "prod",
+                "reviewers": [{"type": "Team", "slug": "adsre"}],
+                "waitTimer": 30,
+                "preventSelfReview": true
+              },
+              {
+                "name": "staging",
+                "reviewers": [{"type": "Team", "slug": "adtech"}],
+                "waitTimer": 5
+              },
+              {
+                "name": "dev"
+              }
+            ]
+
+          # Environment variables: INFRA_ROLE per environment
+          environment-variables: |
+            [
+              {
+                "environmentName": "prod",
+                "variables": [
+                  {"name": "infraRole", "value": "prod-role"},
+                  {"name": "environment", "value": "production"},
+                  {"name": "logLevel", "value": "error"}
+                ]
+              },
+              {
+                "environmentName": "staging",
+                "variables": [
+                  {"name": "infraRole", "value": "staging-role"},
+                  {"name": "environment", "value": "staging"},
+                  {"name": "logLevel", "value": "warn"}
+                ]
+              },
+              {
+                "environmentName": "dev",
+                "variables": [
+                  {"name": "infraRole", "value": "dev-role"},
+                  {"name": "environment", "value": "development"},
+                  {"name": "logLevel", "value": "debug"}
+                ]
+              }
+            ]
+
+          # Strict branch protection on main
+          branch-protection-preset: 'strict'
+          branch-protection-target-branch: 'main'
+
+          # # Repository secrets
+          # repository-secrets: |
+          #   [
+          #     {"name": "NPM_TOKEN", "value": "${{ secrets.NPM_TOKEN }}"},
+          #     {"name": "DEPLOY_KEY", "value": "${{ secrets.DEPLOY_KEY }}"}
+          #   ]
+
+      - name: Display Results
+        if: always()
+        run: |
+          echo "================================"
+          echo "🎉 Repository Created Successfully"
+          echo "================================"
+          echo ""
+          echo "Repository URL: ${{ steps.create-repo.outputs.repository-url }}"
+          echo "Repository Name: ${{ steps.create-repo.outputs.repository-name }}"
+          echo "Repository ID: ${{ steps.create-repo.outputs.repository-id }}"
+          echo ""
+          echo "Productionalization Status:"
+          echo '${{ steps.create-repo.outputs.productionalization-status }}' | jq .
+          echo ""
+          echo "================================"
+          echo "✅ Configuration Applied:"
+          echo "================================"
+          echo "  • Default Branch: main"
+          echo "  • Teams:"
+          echo "    - adsre (admin)"
+          echo "    - adtech (maintain)"
+          echo "  • Environments:"
+          echo "    - prod (30min wait, adsre approval)"
+          echo "    - staging (5min wait, adtech approval)"
+          echo "    - dev (no restrictions)"
+          echo "  • Environment Variables:"
+          echo "    - INFRA_ROLE: prod-role, staging-role, dev-role"
+          echo "  • Branch Protection: strict (on main)"
+          echo "  • Topics: foundry, test, infrastructure, production"
+          echo "================================"

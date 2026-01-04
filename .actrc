@@ -1,0 +1,23 @@
+# Act configuration file
+# See: https://github.com/nektos/act
+
+# Use medium-sized runner image for better compatibility
+-P ubuntu-latest=catthehacker/ubuntu:act-latest
+
+# Load secrets from .secrets file
+--secret-file .secrets
+
+# Use local environment variables
+--env-file .env.local
+
+# Verbose output for debugging
+--verbose
+
+# Bind the working directory
+--bind
+
+# Use the GitHub Actions cache
+--use-gitignore=true
+
+# Container architecture (use your system's architecture)
+--container-architecture linux/amd64

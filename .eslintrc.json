@@ -1,10 +1,10 @@
 {
-  "ignorePatterns": ["dist/", "node_modules/", "coverage/", "*.js"],
-  "extends": ["./node_modules/gts/"],
-  "env": {
-    "jest": true
-  },
-  "rules": {
-    "camelcase": ["error", {"properties": "never", "ignoreDestructuring": true}]
-  }
+    "ignorePatterns": ["dist/", "node_modules/", "coverage/", "*.js"],
+    "extends": ["./node_modules/gts/"],
+    "env": {
+        "jest": true
+    },
+    "rules": {
+        "camelcase": ["error", {"properties": "never", "ignoreDestructuring": true}]
+    }
 }

@@ -147,3 +147,13 @@ Thumbs.db
 # Vite logs files
 vite.config.js.timestamp-*
 vite.config.ts.timestamp-*
+
+# Local testing
+test-payload.json
+test-payload-*.json
+
+# Act local testing
+.secrets
+.env.local
+.actrc.local
+.npm-cache/
