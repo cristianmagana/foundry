@@ -2,4 +2,5 @@
 . "$(dirname -- "$0")/_/husky.sh"
 
 # Run pre-commit checks via Makefile
-make pre-commit
+make format
+make lint

@@ -1,0 +1,31 @@
+module.exports = {
+    preset: 'ts-jest',
+    testEnvironment: 'node',
+    roots: ['<rootDir>/src'],
+    testMatch: ['**/__tests__/**/*.ts', '**/?(*.)+(spec|test).ts'],
+    collectCoverageFrom: [
+        'src/**/*.ts',
+        '!src/**/*.d.ts',
+        '!src/index.ts',
+        '!src/main.ts',
+        '!src/main-local.ts',
+        '!src/**/__tests__/**',
+        '!src/**/*.test.ts',
+        '!src/**/*.spec.ts',
+    ],
+    coverageDirectory: 'coverage',
+    coverageReporters: ['text', 'lcov', 'html'],
+    coverageThreshold: {
+        global: {
+            branches: 74,
+            functions: 80,
+            lines: 79,
+            statements: 80,
+        },
+    },
+    moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx', 'json', 'node'],
+    verbose: true,
+    clearMocks: true,
+    resetMocks: true,
+    restoreMocks: true,
+};

@@ -1,54 +1,93 @@
-name: 'Foundry'
-description: 'Deterministic repository creation for platform teams'
-author: 'Your Name'
+name: "Foundry"
+description: "Deterministic repository creation for platform teams"
+author: "Your Name"
 branding:
-  icon: 'package'
-  color: 'blue'
+  icon: "package"
+  color: "blue"
 
 inputs:
   github-token:
-    description: 'GitHub token for authentication'
+    description: "GitHub token for authentication"
     required: true
   repository-name:
-    description: 'Name of the repository to create'
+    description: "Name of the repository to create"
     required: true
   repository-description:
-    description: 'Description of the repository'
+    description: "Description of the repository"
     required: false
-    default: ''
+    default: ""
   repository-private:
-    description: 'Whether the repository should be private'
+    description: "Whether the repository should be private"
     required: false
-    default: 'false'
+    default: "false"
   repository-template:
-    description: 'Template repository to use (format: owner/repo)'
+    description: "Template repository to use (format: owner/repo)"
     required: false
-    default: ''
+    default: ""
   organization:
-    description: 'Organization to create the repository in (defaults to authenticated user)'
+    description: "Organization to create the repository in (defaults to authenticated user)"
     required: false
-    default: ''
+    default: ""
   auto-init:
-    description: 'Initialize repository with README'
+    description: "Initialize repository with README"
     required: false
-    default: 'true'
+    default: "true"
   gitignore-template:
-    description: 'Gitignore template to use'
+    description: "Gitignore templaCan te to use"
     required: false
-    default: ''
+    default: ""
   license-template:
-    description: 'License template to use'
+    description: "License template to use"
     required: false
-    default: ''
+    default: ""
+  default-branch:
+    description: "Default branch name for the repository"
+    required: false
+    default: "main"
+  # Productionalization features
+  productionalize:
+    description: "Enable productionalization features (team permissions, environments, etc.)"
+    required: false
+    default: "false"
+  team-permissions:
+    description: 'JSON array of team permissions: [{"teamSlug": "platform", "permission": "admin"}]'
+    required: false
+    default: "[]"
+  repository-topics:
+    description: "Comma-separated list of topics to add/merge with existing topics"
+    required: false
+    default: ""
+  environments:
+    description: 'JSON array of environment configurations: [{"name": "production", "reviewers": [{"type": "Team", "slug": "admins"}]}]'
+    required: false
+    default: "[]"
+  environment-variables:
+    description: 'JSON array of environment variables: [{"environmentName": "production", "variables": [{"name": "VAR", "value": "val"}]}]'
+    required: false
+    default: "[]"
+  branch-protection-preset:
+    description: "Branch protection preset: strict, moderate, or minimal"
+    required: false
+    default: ""
+  branch-protection-target-branch:
+    description: "Target branch for protection rules (default: master)"
+    required: false
+    default: "master"
+  repository-secrets:
+    description: 'JSON array of repository secrets: [{"name": "SECRET_NAME", "value": "secret_value"}]'
+    required: false
+    default: "[]"
 
 outputs:
   repository-url:
-    description: 'URL of the created repository'
+    description: "URL of the created repository"
   repository-name:
-    description: 'Full name of the created repository (owner/repo)'
+    description: "Full name of the created repository (owner/repo)"
   repository-id:
-    description: 'ID of the created repository'
+    description: "ID of the created repository"
+  productionalization-status:
+    description: "JSON object with detailed productionalization results"
 
 runs:
-  using: 'node20'
-  main: 'dist/index.js'
+  using: "node20"
+  main: "dist/index.js"

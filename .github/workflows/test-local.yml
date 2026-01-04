@@ -1,0 +1,121 @@
+name: Test Foundry Locally
+
+on:
+  workflow_dispatch:
+    inputs:
+      repository-name:
+        description: 'Repository name to create'
+        required: true
+        default: 'test-foundry-repo'
+      repository-description:
+        description: 'Repository description'
+        required: false
+        default: 'Test repository created by Foundry'
+      repository-private:
+        description: 'Make repository private'
+        required: false
+        default: 'false'
+      organization:
+        description: 'Organization (leave empty for personal)'
+        required: false
+        default: ''
+      productionalize:
+        description: 'Enable productionalization features'
+        required: false
+        default: 'false'
+
+jobs:
+  create-repository:
+    runs-on: ubuntu-latest
+    name: Create Test Repository
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build action
+        run: npm run build
+
+      - name: Create Repository (Basic)
+        if: inputs.productionalize == 'false'
+        uses: ./
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          repository-name: ${{ inputs.repository-name }}
+          repository-description: ${{ inputs.repository-description }}
+          repository-private: ${{ inputs.repository-private }}
+          organization: ${{ inputs.organization }}
+          auto-init: 'true'
+          gitignore-template: 'Node'
+          license-template: 'mit'
+
+      - name: Create Repository (With Productionalization)
+        if: inputs.productionalize == 'true'
+        uses: ./
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          repository-name: ${{ inputs.repository-name }}
+          repository-description: ${{ inputs.repository-description }}
+          repository-private: ${{ inputs.repository-private }}
+          organization: ${{ inputs.organization }}
+          auto-init: 'true'
+          gitignore-template: 'Node'
+          license-template: 'mit'
+          productionalize: 'true'
+          team-permissions: |
+            [
+              {"teamSlug": "platform-admins", "permission": "admin"},
+              {"teamSlug": "developers", "permission": "push"}
+            ]
+          repository-topics: 'test,foundry,github-actions'
+          environments: |
+            [
+              {
+                "name": "production",
+                "waitTimer": 5,
+                "reviewers": [{"type": "Team", "slug": "platform-admins"}],
+                "preventSelfReview": true
+              },
+              {
+                "name": "staging",
+                "reviewers": [{"type": "Team", "slug": "developers"}]
+              }
+            ]
+          environment-variables: |
+            [
+              {
+                "environmentName": "production",
+                "variables": [
+                  {"name": "nodeEnv", "value": "production"},
+                  {"name": "logLevel", "value": "error"}
+                ]
+              },
+              {
+                "environmentName": "staging",
+                "variables": [
+                  {"name": "nodeEnv", "value": "staging"},
+                  {"name": "logLevel", "value": "debug"}
+                ]
+              }
+            ]
+          branch-protection-preset: 'strict'
+          branch-protection-target-branch: 'main'
+          repository-secrets: |
+            [
+              {"name": "NPM_TOKEN", "value": "${{ secrets.NPM_TOKEN }}"}
+            ]
+
+      - name: Display Results
+        if: always()
+        run: |
+          echo "Repository URL: ${{ steps.create-repository.outputs.repository-url || steps.create-repository-prod.outputs.repository-url }}"
+          echo "Repository Name: ${{ steps.create-repository.outputs.repository-name || steps.create-repository-prod.outputs.repository-name }}"
+          echo "Repository ID: ${{ steps.create-repository.outputs.repository-id || steps.create-repository-prod.outputs.repository-id }}"
