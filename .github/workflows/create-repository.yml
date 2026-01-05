@@ -1,0 +1,110 @@
+name: Create Repository
+
+on:
+  workflow_dispatch:
+    inputs:
+      repository-name:
+        description: 'Repository name'
+        required: true
+        type: string
+      repository-description:
+        description: 'Repository description'
+        required: false
+        type: string
+        default: 'Created with Foundry'
+      organization:
+        description: 'Organization (leave empty for personal account)'
+        required: false
+        type: string
+        default: ''
+      repository-private:
+        description: 'Make repository private'
+        required: false
+        type: boolean
+        default: true
+      repository-template:
+        description: 'Template repository (format: owner/repo)'
+        required: false
+        type: string
+        default: ''
+
+jobs:
+  create-repository:
+    runs-on: ubuntu-latest
+    name: Create Production-Ready Repository
+
+    steps:
+      - name: Create Repository with Foundry
+        id: foundry
+        uses: crmagz/foundry@v1
+        with:
+          # Authentication
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+
+          # Repository Configuration
+          repository-name: ${{ inputs.repository-name }}
+          repository-description: ${{ inputs.repository-description }}
+          repository-private: ${{ inputs.repository-private }}
+          organization: ${{ inputs.organization }}
+          repository-template: ${{ inputs.repository-template }}
+          default-branch: 'main'
+          auto-init: 'true'
+          gitignore-template: 'Node'
+          license-template: 'mit'
+
+          # Productionalization
+          productionalize: 'true'
+
+          # Repository Topics
+          repository-topics: 'foundry,automated,production-ready'
+
+          # Environments (dev, staging, production)
+          environments: |
+            [
+              {
+                "name": "PROD",
+                "reviewers": [{"type": "User", "slug": "cmagzs"}],
+                "waitTimer": 5,
+                "preventSelfReview": true
+              },
+              {
+                "name": "STAGING",
+                "reviewers": [{"type": "User", "slug": "cmagzs"}]
+              },
+              {
+                "name": "DEV"
+              }
+            ]
+
+          # Branch Protection (strict for main branch)
+          branch-protection-preset: 'strict'
+          branch-protection-target-branch: 'main'
+
+      - name: Display Results
+        run: |
+          echo "✅ Repository created successfully!"
+          echo ""
+          echo "📦 Repository URL: ${{ steps.foundry.outputs.repository-url }}"
+          echo "📛 Repository Name: ${{ steps.foundry.outputs.repository-name }}"
+          echo "🆔 Repository ID: ${{ steps.foundry.outputs.repository-id }}"
+          echo ""
+          echo "🌍 Environments configured: PROD, STAGING, DEV"
+          echo "🔐 Reviewer: cmagzs"
+          echo "🛡️ Branch protection: strict (on main)"
+
+      - name: Summary
+        run: |
+          echo "### 🎉 Repository Created Successfully" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "**Repository:** [${{ steps.foundry.outputs.repository-name }}](${{ steps.foundry.outputs.repository-url }})" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "#### Configuration" >> $GITHUB_STEP_SUMMARY
+          echo "- 🌍 **Environments:** PROD, STAGING, DEV" >> $GITHUB_STEP_SUMMARY
+          echo "- 👤 **Admin/Reviewer:** cmagzs" >> $GITHUB_STEP_SUMMARY
+          echo "- 🔐 **Branch Protection:** strict (main)" >> $GITHUB_STEP_SUMMARY
+          echo "- 🌿 **Default Branch:** main" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "#### Next Steps" >> $GITHUB_STEP_SUMMARY
+          echo "1. Clone the repository: \`git clone ${{ steps.foundry.outputs.repository-url }}\`" >> $GITHUB_STEP_SUMMARY
+          echo "2. Configure additional secrets if needed" >> $GITHUB_STEP_SUMMARY
+          echo "3. Start developing! 🚀" >> $GITHUB_STEP_SUMMARY
