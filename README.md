@@ -47,7 +47,7 @@ jobs:
   create:
     runs-on: ubuntu-latest
     steps:
-      - uses: your-org/foundry@v1
+      - uses: crmagz/foundry@v1
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           repository-name: 'my-new-repo'
@@ -58,7 +58,7 @@ jobs:
 ### Production-Ready Repository
 
 ```yaml
-- uses: your-org/foundry@v1
+- uses: crmagz/foundry@v1
   with:
     github-token: ${{ secrets.GITHUB_TOKEN }}
     repository-name: 'my-service'
@@ -307,7 +307,7 @@ See [API Reference](./docs/API.md) for complete input schemas and validation rul
 ```yaml
 - name: Create Repository
   id: create
-  uses: your-org/foundry@v1
+  uses: crmagz/foundry@v1
   with:
     github-token: ${{ secrets.GITHUB_TOKEN }}
     repository-name: 'my-repo'
@@ -326,7 +326,7 @@ See [API Reference](./docs/API.md) for complete input schemas and validation rul
 ### Create from Template
 
 ```yaml
-- uses: your-org/foundry@v1
+- uses: crmagz/foundry@v1
   with:
     github-token: ${{ secrets.GITHUB_TOKEN }}
     repository-name: 'my-service'
@@ -339,7 +339,7 @@ See [API Reference](./docs/API.md) for complete input schemas and validation rul
 ### Add Team Permissions
 
 ```yaml
-- uses: your-org/foundry@v1
+- uses: crmagz/foundry@v1
   with:
     github-token: ${{ secrets.GITHUB_TOKEN }}
     repository-name: 'team-repo'
@@ -356,7 +356,7 @@ See [API Reference](./docs/API.md) for complete input schemas and validation rul
 ### Configure Environments
 
 ```yaml
-- uses: your-org/foundry@v1
+- uses: crmagz/foundry@v1
   with:
     github-token: ${{ secrets.GITHUB_TOKEN }}
     repository-name: 'service'
@@ -446,8 +446,8 @@ MIT License - see [LICENSE](./LICENSE) for details.
 ## Support
 
 - 📖 **Documentation**: [docs/](./docs/)
-- 🐛 **Issues**: [GitHub Issues](https://github.com/your-org/foundry/issues)
-- 💬 **Discussions**: [GitHub Discussions](https://github.com/your-org/foundry/discussions)
+- 🐛 **Issues**: [GitHub Issues](https://github.com/crmagz/foundry/issues)
+- 💬 **Discussions**: [GitHub Discussions](https://github.com/crmagz/foundry/discussions)
 
 ---
 

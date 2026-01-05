@@ -28,7 +28,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Create Repository
-        uses: your-org/foundry@v1
+        uses: crmagz/foundry@v1
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           repository-name: 'my-new-repo'
@@ -50,7 +50,7 @@ jobs:
 You can reference the action directly in your workflow without visiting the marketplace:
 
 ```yaml
-- uses: your-org/foundry@v1
+- uses: crmagz/foundry@v1
 ```
 
 No installation step is required. GitHub Actions automatically downloads and caches the action on first use.
@@ -64,7 +64,7 @@ Choose a versioning strategy that fits your needs:
 ### Major Version (Recommended)
 
 ```yaml
-- uses: your-org/foundry@v1
+- uses: crmagz/foundry@v1
 ```
 
 **Pros:**
@@ -77,7 +77,7 @@ Choose a versioning strategy that fits your needs:
 ### Specific Version
 
 ```yaml
-- uses: your-org/foundry@v1.2.3
+- uses: crmagz/foundry@v1.2.3
 ```
 
 **Pros:**
@@ -90,7 +90,7 @@ Choose a versioning strategy that fits your needs:
 ### Commit SHA (Maximum Security)
 
 ```yaml
-- uses: your-org/foundry@abc123def456...
+- uses: crmagz/foundry@abc123def456...
 ```
 
 **Pros:**
@@ -104,7 +104,7 @@ Choose a versioning strategy that fits your needs:
 ### Latest (Not Recommended for Production)
 
 ```yaml
-- uses: your-org/foundry@main
+- uses: crmagz/foundry@main
 ```
 
 **Risks:**
@@ -153,7 +153,7 @@ If creating repositories in an organization, the token must have:
 For advanced use cases, use a PAT instead of `GITHUB_TOKEN`:
 
 ```yaml
-- uses: your-org/foundry@v1
+- uses: crmagz/foundry@v1
   with:
     github-token: ${{ secrets.PAT_TOKEN }}
 ```
@@ -177,7 +177,7 @@ jobs:
   create:
     runs-on: ubuntu-latest
     steps:
-      - uses: your-org/foundry@v1
+      - uses: crmagz/foundry@v1
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           repository-name: 'simple-repo'
@@ -189,7 +189,7 @@ jobs:
 ### Create from Template
 
 ```yaml
-- uses: your-org/foundry@v1
+- uses: crmagz/foundry@v1
   with:
     github-token: ${{ secrets.GITHUB_TOKEN }}
     repository-name: 'my-service'
@@ -202,7 +202,7 @@ jobs:
 ### Create with Productionalization
 
 ```yaml
-- uses: your-org/foundry@v1
+- uses: crmagz/foundry@v1
   with:
     github-token: ${{ secrets.GITHUB_TOKEN }}
     repository-name: 'production-service'
@@ -277,7 +277,7 @@ jobs:
 
       - name: Create Repository
         id: foundry
-        uses: your-org/foundry@v1
+        uses: crmagz/foundry@v1
         with:
           github-token: ${{ secrets.PAT_TOKEN }}
           repository-name: ${{ inputs.repo-name }}
@@ -334,7 +334,7 @@ jobs:
             team: 'developers'
 
     steps:
-      - uses: your-org/foundry@v1
+      - uses: crmagz/foundry@v1
         with:
           github-token: ${{ secrets.PAT_TOKEN }}
           repository-name: ${{ matrix.repository.name }}
@@ -356,7 +356,7 @@ Foundry provides outputs that can be used in subsequent workflow steps:
 ```yaml
 - name: Create Repository
   id: create-repo
-  uses: your-org/foundry@v1
+  uses: crmagz/foundry@v1
   with:
     github-token: ${{ secrets.GITHUB_TOKEN }}
     repository-name: 'my-repo'
@@ -407,14 +407,14 @@ Never hardcode tokens or secrets:
 
 ```yaml
 # ❌ Bad
-- uses: your-org/foundry@v1
+- uses: crmagz/foundry@v1
   with:
     github-token: ghp_1234567890abcdef
     repository-secrets: |
       [{"name": "API_KEY", "value": "my-api-key-12345"}]
 
 # ✅ Good
-- uses: your-org/foundry@v1
+- uses: crmagz/foundry@v1
   with:
     github-token: ${{ secrets.GITHUB_TOKEN }}
     repository-secrets: |
@@ -438,10 +438,10 @@ For production workflows, pin to specific versions or commit SHAs:
 
 ```yaml
 # ✅ Good for production
-- uses: your-org/foundry@v1.2.3
+- uses: crmagz/foundry@v1.2.3
 
 # ✅ Best for high-security environments
-- uses: your-org/foundry@abc123def456...
+- uses: crmagz/foundry@abc123def456...
 ```
 
 ### 4. Validate Inputs
@@ -468,7 +468,7 @@ jobs:
     runs-on: ubuntu-latest
     environment: production  # Requires approval
     steps:
-      - uses: your-org/foundry@v1
+      - uses: crmagz/foundry@v1
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           repository-name: 'critical-service'
@@ -482,7 +482,7 @@ Always check the productionalization status output:
 ```yaml
 - name: Create Repository
   id: create
-  uses: your-org/foundry@v1
+  uses: crmagz/foundry@v1
   with:
     github-token: ${{ secrets.GITHUB_TOKEN }}
     repository-name: 'my-repo'

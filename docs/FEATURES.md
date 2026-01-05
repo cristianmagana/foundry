@@ -23,7 +23,7 @@ Create a simple repository with auto-initialization:
 
 ```yaml
 - name: Create Repository
-  uses: your-org/foundry@v1
+  uses: crmagz/foundry@v1
   with:
     github-token: ${{ secrets.GITHUB_TOKEN }}
     repository-name: 'my-new-repo'
@@ -45,7 +45,7 @@ Use an existing repository as a template:
 
 ```yaml
 - name: Create from Template
-  uses: your-org/foundry@v1
+  uses: crmagz/foundry@v1
   with:
     github-token: ${{ secrets.GITHUB_TOKEN }}
     repository-name: 'my-service'
@@ -66,7 +66,7 @@ Use an existing repository as a template:
 
 ```yaml
 - name: Create with Gitignore and License
-  uses: your-org/foundry@v1
+  uses: crmagz/foundry@v1
   with:
     github-token: ${{ secrets.GITHUB_TOKEN }}
     repository-name: 'node-service'
@@ -85,7 +85,7 @@ Use an existing repository as a template:
 
 ```yaml
 - name: Create with Custom Default Branch
-  uses: your-org/foundry@v1
+  uses: crmagz/foundry@v1
   with:
     github-token: ${{ secrets.GITHUB_TOKEN }}
     repository-name: 'develop-repo'
@@ -131,7 +131,7 @@ Automatically assign teams with specific permission levels to your repository.
 
 ```yaml
 - name: Create with Team Permissions
-  uses: your-org/foundry@v1
+  uses: crmagz/foundry@v1
   with:
     github-token: ${{ secrets.GITHUB_TOKEN }}
     repository-name: 'platform-service'
@@ -167,7 +167,7 @@ Create deployment environments with protection rules and required reviewers.
 
 ```yaml
 - name: Create with Environments
-  uses: your-org/foundry@v1
+  uses: crmagz/foundry@v1
   with:
     github-token: ${{ secrets.GITHUB_TOKEN }}
     repository-name: 'api-service'
@@ -218,7 +218,7 @@ Configure environment-specific variables with automatic case normalization.
 
 ```yaml
 - name: Create with Environment Variables
-  uses: your-org/foundry@v1
+  uses: crmagz/foundry@v1
   with:
     github-token: ${{ secrets.GITHUB_TOKEN }}
     repository-name: 'web-app'
@@ -271,7 +271,7 @@ Apply preset branch protection rules for security and code quality.
 
 ```yaml
 - name: Create with Branch Protection
-  uses: your-org/foundry@v1
+  uses: crmagz/foundry@v1
   with:
     github-token: ${{ secrets.GITHUB_TOKEN }}
     repository-name: 'critical-service'
@@ -313,7 +313,7 @@ Securely upload encrypted secrets for CI/CD pipelines.
 
 ```yaml
 - name: Create with Secrets
-  uses: your-org/foundry@v1
+  uses: crmagz/foundry@v1
   with:
     github-token: ${{ secrets.GITHUB_TOKEN }}
     repository-name: 'build-service'
@@ -349,7 +349,7 @@ Add topics for organization and discoverability.
 
 ```yaml
 - name: Create with Topics
-  uses: your-org/foundry@v1
+  uses: crmagz/foundry@v1
   with:
     github-token: ${{ secrets.GITHUB_TOKEN }}
     repository-name: 'microservice'
@@ -398,7 +398,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Create Production-Ready Service
-        uses: your-org/foundry@v1
+        uses: crmagz/foundry@v1
         with:
           # Core settings
           github-token: ${{ secrets.GITHUB_TOKEN }}
