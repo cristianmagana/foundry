@@ -266,7 +266,7 @@ act -P ubuntu-latest=catthehacker/ubuntu:full-latest
 act -P ubuntu-latest=catthehacker/ubuntu:act-latest
 
 # Use minimal image (small, may miss dependencies)
-act -P ubuntu-latest=node:20-slim
+act -P ubuntu-latest=node:24-slim
 ```
 
 ### Custom Workflow File
@@ -286,7 +286,7 @@ jobs:
 
       - uses: actions/setup-node@v4
         with:
-          node-version: '20'
+          node-version: '24'
 
       - run: npm ci
       - run: npm run build

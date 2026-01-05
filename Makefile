@@ -4,7 +4,7 @@
 .DEFAULT_GOAL := help
 
 # Node and npm settings for hermetic builds
-NODE_VERSION := 20
+NODE_VERSION := 24
 NPM_CONFIG_CACHE := $(PWD)/.npm-cache
 
 # Colors for output

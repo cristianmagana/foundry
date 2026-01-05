@@ -112,7 +112,7 @@ See [Features Guide](./docs/FEATURES.md) for more examples and detailed configur
 
 To develop or test Foundry locally:
 
-- **Node.js** 20 or higher
+- **Node.js** 24 or higher (LTS)
 - **npm** 9 or higher
 - **Make** (for build automation)
 - **Docker** (required for local testing with act)
