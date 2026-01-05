@@ -4,3 +4,5 @@
 # Run pre-commit checks via Makefile
 make format
 make lint
+git add dist
+make package
