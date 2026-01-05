@@ -39,7 +39,7 @@ jobs:
         uses: crmagz/foundry@v1
         with:
           # Authentication
-          github-token: ${{ secrets.GITHUB_TOKEN }}
+          github-token: ${{ secrets.TOKEN }}
 
           # Repository Configuration
           repository-name: ${{ inputs.repository-name }}
